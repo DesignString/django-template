@@ -88,7 +88,8 @@ target/
 #   However, in case of collaboration, if having platform-specific dependencies or dependencies
 #   having no cross-platform support, pipenv may install dependencies that don't work, or not
 #   install all needed dependencies.
-#Pipfile.lock
+Pipfile.lock
+Pipfile
 
 # celery beat schedule file
 celerybeat-schedule
@@ -152,6 +153,7 @@ Temporary Items
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
 # User-specific stuff
+.idea/
 .idea/**/workspace.xml
 .idea/**/tasks.xml
 .idea/**/usage.statistics.xml
@@ -302,6 +304,7 @@ ehthumbs_vista.db
 
 # Dump file
 *.stackdump
+dump.rdb
 
 # Folder config file
 [Dd]esktop.ini
@@ -318,5 +321,9 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# Add more ignored files here
+app/migrations
+
 
 # End of https://www.gitignore.io/api/macos,django,python,pycharm,windows,visualstudiocode

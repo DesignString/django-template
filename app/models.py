@@ -88,6 +88,7 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractUser, SoftDeletionModel):
+    username = None
     first_name = models.CharField(max_length=100, blank=True, null=True)
     last_name = models.CharField(max_length=100, blank=True, null=True)
     email = models.EmailField(_('email address'), unique=True)
@@ -99,6 +100,8 @@ class User(AbstractUser, SoftDeletionModel):
                                    help_text="User will have all permissions without explicitly assigning them.")
     created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
+    
+    USERNAME_FIELD = 'email'
 
     class Meta:
         db_table = 'ds_users'

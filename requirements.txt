@@ -17,7 +17,7 @@ furl==2.0.0
 importlib-metadata==1.4.0
 kombu==4.6.7
 mysqlclient==1.4.6
-Pillow==6.2.0
+Pillow==6.2.2
 PyJWT==1.7.1
 python-crontab==2.3.8
 python-dateutil==2.8.0

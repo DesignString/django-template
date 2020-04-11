@@ -102,6 +102,7 @@ class User(AbstractUser, SoftDeletionModel):
     updated_at = models.DateTimeField(auto_now=True, blank=True, null=True)
     
     USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
 
     class Meta:
         db_table = 'ds_users'

@@ -103,6 +103,7 @@ class User(AbstractUser, SoftDeletionModel):
     
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
+    objects = UserManager()
 
     class Meta:
         db_table = 'ds_users'

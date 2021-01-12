@@ -2,6 +2,8 @@ from django.db.models import Q
 from decouple import config
 from rest_framework import serializers
 
+from app import models
+
 class DynamicFieldsModelSerializer(serializers.ModelSerializer):
     """
     A ModelSerializer that takes an additional `fields` argument that
@@ -22,3 +24,9 @@ class DynamicFieldsModelSerializer(serializers.ModelSerializer):
             for field_name in existing - allowed:
                 self.fields.pop(field_name)
 
+
+class UserSerializer(DynamicFieldsModelSerializer):
+    
+    class Meta:
+        model = models.User
+        fields = ('id', 'first_name', 'last_name', 'email', 'profile_pic')

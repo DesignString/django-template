@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'storages',
     'xlwt',
+    'drf_yasg',
     'app',
     'jsonfield'
 ]
@@ -57,8 +58,10 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'middlewares.middleware.JWTAuthenticationMiddleware',
+    'middlewares.middleware.DisableCSRF',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -66,16 +69,16 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'project_name.urls'
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
+    # 'DEFAULT_PERMISSION_CLASSES': (
+    #     'rest_framework.permissions.IsAuthenticated',
+    # ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.SessionAuthentication'
     ),
-    'DEFAULT_FILTER_BACKENDS': (
-        'django_filters.rest_framework.backends.DjangoFilterBackend',
-    ),
+    # 'DEFAULT_FILTER_BACKENDS': (
+    #     'django_filters.rest_framework.backends.DjangoFilterBackend',
+    # ),
 }
 
 SIMPLE_JWT = {

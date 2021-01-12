@@ -17,8 +17,48 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.urls import include
+from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+
+from rest_framework import routers, permissions
+from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
+
+from app import registration
+
+
+schema_view = get_schema_view(
+   openapi.Info(
+      title="Django Template Backend APIs",
+      default_version='v1',
+      description="List of APIs used in GTM",
+      # terms_of_service="https://www.google.com/policies/terms/",
+      # contact=openapi.Contact(email="contact@snippets.local"),
+      # license=openapi.License(name="BSD License"),
+   ),
+#    public=True,
+   permission_classes=(permissions.AllowAny,),
+)
+
+router = routers.DefaultRouter()
 
 urlpatterns = [
     url(r'^jet/', include('jet.urls', 'jet')),      # Django Jet Urls
     url(r'^admin/', admin.site.urls),
+    url(r'^docs/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-swagger-ui'),
+    url(r'^docs-swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    url('auth/login/', registration.login),
+    url('auth/signup/', registration.signup),
+    url('auth/forgot-password/', registration.forgot_password),
+    url('auth/reset-password/', registration.reset_password)
 ]
+
+urlpatterns += [
+
+]+static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+urlpatterns += staticfiles_urlpatterns()
+
+urlpatterns += router.urls

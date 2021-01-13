@@ -1,0 +1,52 @@
+version: '3'
+
+volumes:
+  backend-static:
+
+services:
+  redis:
+    image: "redis:alpine"
+  project_name:
+    restart: always
+    build: .
+    image: project_name_backend
+    env_file: .env
+    ports:
+      - "8002:8006"
+    command: gunicorn -w 10 project_name.wsgi:application -b :8006 -t 9999
+    volumes:
+      - .:/project_name
+      - backend-static:/project_name/static
+    depends_on:
+      - redis
+  celery:
+    build: .
+    container_name: project_name_celery_worker
+    command: celery worker -A project_name --loglevel=debug --concurrency=4
+    volumes:
+      - .:/project_name
+    depends_on:
+      - redis
+      - project_name
+  celery-beat:
+    build: .
+    container_name: project_name_celery_beat
+    environment:
+        CELERY_BROKER_URL: 'redis://redis:6379'
+    command: celery -A project_name beat --loglevel=debug --scheduler=django_celery_beat.schedulers:DatabaseScheduler
+    volumes:
+      - .:/project_name
+    depends_on:
+      - redis
+      - project_name
+
+  nginx:
+    restart: always
+    build: ./nginx/
+    image: project_name_backend_nginx
+    ports:
+      - "8084:8084"
+    volumes:
+      - backend-static:/var/www/project_name/static
+    depends_on:
+      - project_name
